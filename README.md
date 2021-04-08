@@ -1,3 +1,6 @@
+# Fork info
+This repository is a fork of https://github.com/Cyanox62/Lone079. It has been created to bind health of spawned SCP with number of activated generators.
+
 # Lone079
 
 SCP-079 will be turned into a random SCP with partial health and spawned in SCP-939s containment chamber when he is the last SCP alive instead of being auto recontained.
