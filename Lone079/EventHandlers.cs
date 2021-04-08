@@ -43,12 +43,18 @@ namespace Lone079
 				{
 					Player player = pList[0];
 					int level = player.Level;
-					RoleType role = scp079Respawns[rand.Next(scp079Respawns.Count)];
-					if (is106Contained && role == RoleType.Scp106) role = RoleType.Scp93953;
-					player.SetRole(role);
-					Timing.CallDelayed(1f, () => player.Position = scp939pos);
-					player.Health = !Lone079.instance.Config.ScaleWithLevel ? player.MaxHealth * (Lone079.instance.Config.HealthPercent / 100f) : player.MaxHealth * ((Lone079.instance.Config.HealthPercent + ((level - 1) * 5)) / 100f);
-					player.Broadcast(10, "<i>You have been respawned as a random SCP with half health because all other SCPs have died.</i>");
+					float healthPercent = Lone079.instance.Config.HealthPercent +
+						level * Lone079.instance.Config.HealthBuffPerLevel -
+						Map.ActivatedGenerators * Lone079.instance.Config.HealthLossPerActivatedGenerator;
+					if (healthPercent > 0)
+					{
+						RoleType role = scp079Respawns[rand.Next(scp079Respawns.Count)];
+						if (is106Contained && role == RoleType.Scp106) role = RoleType.Scp93953;
+						player.SetRole(role);
+						Timing.CallDelayed(1f, () => player.Position = scp939pos);
+						player.Health = player.MaxHealth * (healthPercent / 100f);
+						player.Broadcast(10, "<i>You have been respawned as a random SCP with "+ healthPercent + "% health because all other SCPs have died.</i>");
+					}
 				}
 			}
 		}

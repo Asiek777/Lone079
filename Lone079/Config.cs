@@ -7,7 +7,8 @@ namespace Lone079
 		public bool IsEnabled { get; set; } = true;
 
 		public bool CountZombies { get; set; } = false;
-		public bool ScaleWithLevel { get; set; } = false;
+		public int HealthBuffPerLevel { get; set; } = 10;
+		public int HealthLossPerActivatedGenerator { get; set; } = 20;
 
 		public int HealthPercent { get; set; } = 50;
 	}
