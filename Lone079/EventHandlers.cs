@@ -15,6 +15,8 @@ namespace Lone079
 
 		private bool is106Contained, canChange;
 
+		private const int GeneratorsNumber = 5;
+
 		private List<RoleType> scp079Respawns = new List<RoleType>()
 		{
 			RoleType.Scp049,
@@ -33,7 +35,7 @@ namespace Lone079
 
 		private IEnumerator<float> Check079(float delay = 1f)
 		{
-			if (Map.ActivatedGenerators != 5 && canChange)
+			if (Map.ActivatedGenerators != GeneratorsNumber && canChange)
 			{
 				yield return Timing.WaitForSeconds(delay);
 				IEnumerable<Player> enumerable = Player.List.Where(x => x.Team == Team.SCP);
@@ -44,8 +46,11 @@ namespace Lone079
 					Player player = pList[0];
 					int level = player.Level;
 					float healthPercent = Lone079.instance.Config.HealthPercent +
-						level * Lone079.instance.Config.HealthBuffPerLevel -
-						Map.ActivatedGenerators * Lone079.instance.Config.HealthLossPerActivatedGenerator;
+						level * Lone079.instance.Config.HealthBuffPerLevel;
+					if (Lone079.instance.Config.ProportionalHealth)
+						healthPercent *= 1 - (Map.ActivatedGenerators / GeneratorsNumber);
+					else
+						healthPercent -= Map.ActivatedGenerators * Lone079.instance.Config.HealthLossPerActivatedGenerator;
 					if (healthPercent > 0)
 					{
 						RoleType role = scp079Respawns[rand.Next(scp079Respawns.Count)];
