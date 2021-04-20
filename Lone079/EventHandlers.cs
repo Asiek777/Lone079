@@ -44,7 +44,7 @@ namespace Lone079
 				if (pList.Count == 1 && pList[0].Role == RoleType.Scp079)
 				{
 					Player player = pList[0];
-					int level = player.Level;
+					int level = player.Level - 1;
 					float healthPercent = Lone079.instance.Config.HealthPercent +
 						level * Lone079.instance.Config.HealthBuffPerLevel;
 					if (Lone079.instance.Config.ProportionalHealth)
